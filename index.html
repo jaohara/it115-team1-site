@@ -1,0 +1,67 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title></title>
+  <link rel="stylesheet" href="/style/style.css ">
+
+  <!-- TODO: Move to an external script -->
+  <script>
+    function toggleDarkMode (e) {
+      e.preventDefault();
+      document.getElementsByTagName("html")[0].classList.toggle("dark");
+    };
+  </script>
+</head>
+<body>
+
+  <header>
+    <div class="header-wrapper">
+      <h1 id="header-logo">
+        <a href="/" class="logo-link">IT115 - Team 1</a>
+      </h1>
+
+      <ul class="main-nav">
+      	<!--
+        <li class="main-nav-list-item">
+          <a class="main-nav-link" href="/"
+            onClick="toggleDarkMode(event)"
+          >Toggle</a>
+        </li>
+        -->
+        <li class="main-nav-list-item">
+          <a class="main-nav-link" href="/">John's Page</a>
+        </li>        
+        <li class="main-nav-list-item">
+          <a class="main-nav-link" href="/">Karen's Page</a>
+        </li>
+        <li class="main-nav-list-item">
+          <a class="main-nav-link" href="/">Ayla's Page</a>
+        </li>
+      </ul>
+    </div>
+  </header>
+
+  <div id="content">
+    <h1>Team 1 Project</h1>
+<p>This is the page for the IT115 Team 1 Project.</p>
+<h2>Sub-Pages</h2>
+<p>The following pages also exist for each group member:</p>
+<ul>
+<li><a href="Ayla/">Ayla's Page</a></li>
+<li><a href="John/">John's Page</a></li>
+<li><a href="Karen/">Karen's Page</a></li>
+</ul>
+
+  </div>
+
+  <footer>
+    <p>
+      Created in 2022 for IT115 at <a href="">North Seattle College</a>
+    </p>
+  </footer>
+</body>
+</html>
