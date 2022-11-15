@@ -1,0 +1,394 @@
+@use "sass:map";
+
+// Google fonts
+@import url('https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400;700&family=Inter:wght@300;400;700&family=Oi&family=Source+Sans+Pro:wght@300;400;700;900&family=Fredoka+One&display=swap');
+
+
+// $main-font: "Inter";
+$main-font: "Inter Tight";
+// $main-font: "Source Sans Pro";
+
+$header-font: $main-font; 
+// $logo-font: "Fredoka One";
+// $logo-font: "Oi";
+$logo-font: $main-font;
+$body-font: $main-font;
+
+// raw colors
+$alice-blue: #DBE4EE;
+$black-coffee: #2F242C;
+$corn: #FFF275;
+$dark-sienna: #3D0814;
+$fern-green: #6C7D47;
+$ghost-white: #F0EFF4;
+$iceberg: #81A4CD;
+$international-orange-aerospace: #F05D23;
+$old-burgundy: #3B252C;
+$steel-blue: #3E7CB1;
+$yale-blue: #054A91;
+
+$themes: (
+  light: (
+    background-color: $ghost-white,
+    background-alt: $alice-blue,
+    // $background-alt: $corn;
+    text-color: $black-coffee,
+    text-alt: $dark-sienna,
+    text-color-inverted: $ghost-white,
+    // $accent-color: $international-orange-aerospace;
+    accent-color: $yale-blue,
+    // $accent-color: $dark-sienna;
+    // $accent-color: $corn;
+    // $accent-secondary: $
+  ),
+  dark: (
+    // $background-color: $ghost-white,
+    background-color: $black-coffee,
+    // $background-alt: $alice-blue,
+    background-alt: $old-burgundy,
+    // $text-color: $black-coffee,
+    text-color: $ghost-white,
+    // $text-alt: $dark-sienna,
+    text-alt: $alice-blue,
+    // $text-color-inverted: $ghost-white,
+    text-color-inverted: $black-coffee,
+    accent-color: $yale-blue,
+  )
+);
+
+// assign colors to roles
+$background-color: $ghost-white;
+$background-alt: $alice-blue;
+// $background-alt: $corn;
+$text-color: $black-coffee;
+$text-alt: $dark-sienna;
+$text-color-inverted: $ghost-white;
+// $accent-color: $international-orange-aerospace;
+$accent-color: $yale-blue;
+// $accent-color: $dark-sienna;
+// $accent-color: $corn;
+// $accent-secondary: $
+
+// various shared ui styling
+$common-border-radius: 8px;
+$common-border: 3px;
+$common-line-height: 2.4rem;
+$common-margin-bottom: 1.3rem;
+$common-padding: 1.2rem;
+$common-transition-time: 150ms;
+
+// mixins
+@mixin body-font {
+  font-family: $body-font;
+  font-size: 1.1rem;
+  font-weight: normal;
+  line-height: $common-line-height;
+}
+
+@mixin common-transitions {
+  transition: 
+    background-color $common-transition-time,
+    border $common-transition-time,
+    box-shadow $common-transition-time,
+    color $common-transition-time,
+    filter $common-transition-time,
+    padding $common-transition-time;
+}
+
+@mixin margin-reset {
+  margin: 0;
+  margin-bottom: $common-margin-bottom;
+}
+
+@mixin responsive-widths {
+  //375px
+  width: 100%;
+
+  //768px
+  @media (min-width: 768px) {
+    // margin: 0 auto;
+    width: 768px;
+  }
+  //1280px
+  @media (min-width: 1280px) {
+    // width: 1280px;
+  }
+  //1920px
+  @media (min-width: 1920px) {
+    // width: 1920px;
+  }
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  @include common-transitions();
+  background-color: map.get($themes, "light", "background-color");
+  // color: $text-color;
+  color: map.get($themes, "light", "text-color");
+  font-family: $main-font;
+
+  &.dark {
+    background-color: map.get($themes, "dark", "background-color");
+    color: map.get($themes, "dark", "text-color");
+  }
+}
+
+h1, h2, h3 {
+  @include common-transitions();
+  color: map.get($themes, "light", "text-color");;
+  // background-color: $accent-color;
+  margin: 0;
+  margin-bottom: $common-margin-bottom;
+  border-bottom: $common-border solid $background-alt;
+  padding-bottom: .5rem;
+
+  html.dark & {
+    color: map.get($themes, "dark", "text-color");
+  }
+}
+
+h1 {
+  font-size: 2.8rem;
+}
+
+h2 {
+  font-size: 2.2rem;
+}
+
+h3 {
+  font-size: 1.8rem;
+}
+
+a:not(.main-nav-link, .logo-link) {
+  @include common-transitions();
+  // border-radius: $common-border-radius;
+  border-bottom: 2px solid map.get($themes, "light", "background-alt");
+  color: $accent-color;
+  margin: 0 -.1em;
+  padding: .15em .25em;
+  text-decoration: none;
+  
+  .dark & {
+    border-bottom: 2px solid map.get($themes, "dark", "background-alt");
+  }
+
+
+  &:hover {
+    background-color: map.get($themes, "light", "background-alt");
+    // border: 2px solid $background-alt;
+    color: map.get($themes, "light", "text-color");;
+    border-radius: $common-border-radius;
+    // border-bottom: 4px solid $accent-color;
+    // padding-bottom: 0px;
+    
+    .dark & {
+      background-color: map.get($themes, "dark", "background-alt");
+      color: map.get($themes, "dark", "text-color");;
+    }
+  }
+
+  &:active {
+    color: $accent-color;
+  }
+}
+
+ul:not(.main-nav), ol {
+  @include margin-reset();
+  // border-left: $common-border solid background-alt;
+  background-color: $background-alt;
+  border-radius: $common-border-radius;
+  padding: .6rem 2.4rem;
+  // padding-left: 2.4rem;
+}
+
+li {
+  @include body-font();
+  line-height: 2.4rem;
+  padding-left: .4rem;
+}
+
+li:not(.main-nav-list-item)::marker {
+  color: $accent-color;
+  font-weight: bold;
+}
+
+p {
+  @include body-font();
+  @include margin-reset();
+}
+
+header {
+  @include common-transitions();
+  // @include responsive-widths();
+  align-items: center;
+  background-color: map.get($themes, "light", "background-color");
+  // background-color: $text-color;
+  box-shadow: 0px 4px 8px map.get($themes, "light", "background-color");
+  // border-top: 8px solid $text-color;
+  display: flex;
+  // flex-direction: column;
+  justify-content: space-between;
+  position: fixed;
+  top: 0;
+  width: 100vw;
+  
+  .dark & {
+    background-color: map.get($themes, "dark", "background-color");
+    box-shadow: 0px 4px 8px map.get($themes, "dark", "background-color");
+  
+  }
+}
+
+.header-wrapper{
+  margin: 0 auto;
+  @include responsive-widths();
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#header-logo {
+  font-family: "Inter";
+  font-size: 1.8rem;
+  margin: .5rem 0 0;
+  font-weight: bold;
+  // width: 100%;
+  // display: inline;
+}
+
+.logo-link{
+  // color: $accent-color;
+  color: map.get($themes, "light", "text-color");
+  text-decoration: none;
+  
+  .dark & {
+    color: map.get($themes, "dark", "text-color");
+  }
+
+  &:hover {
+    @include common-transitions();
+
+  }
+}
+
+.main-nav {
+  list-style-type: none;
+  display: inline;
+  padding: 0;
+
+  & li {
+    display: inline;
+
+    a { 
+      text-decoration: none;
+    }
+  }
+}
+
+.main-nav-list-item {
+  @include common-transitions();
+  // background-color: $background-alt;
+  display: inline;
+  text-align: center;
+  margin: 0 1rem;
+  
+  &:hover {
+  }
+}
+
+.main-nav-link {
+  @include common-transitions();
+  color: $accent-color;
+  display: inline-block;
+  // background-color: $background-alt;
+  font-weight: bold;
+  margin: -1rem -1.2rem;
+  padding: .4rem 1.2rem;
+  text-decoration: none;
+  
+  &:hover {
+    background-color: $background-alt;
+    border-radius: $common-border-radius;
+    color: $text-color;
+  }
+
+  &:active {
+    color: $accent-color;
+  }
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+  width: 100vw;
+
+  & > * {
+    padding: $common-padding;
+  }
+}
+
+#content {
+  @include responsive-widths();
+  margin: 7.5rem auto 0;
+}
+
+#content-controls {
+  display: none;
+
+
+  background-color: $text-color;
+  color: $accent-color;
+  height: 100vh;
+  left: 0;
+  position: fixed;
+  top: 0;
+  width: calc(100vw - 768px);
+}
+
+button {
+  @include common-transitions();
+  
+  background-color: transparent;
+  // background-color: $background-alt;
+  border: $common-border solid $background-alt;
+  border-radius: $common-border-radius;
+  color: $accent-color;
+  font-family: $main-font;
+  font-weight: bold;
+  padding: .75rem 1rem;
+
+  &:hover {
+    // background-color: $accent-color;
+    background-color: $background-alt;
+    border-color: $background-alt;
+    // border-color: $iceberg;
+    // box-shadow: 0px 4px 15px rgba(0,0,0,0.05);
+    cursor: pointer;
+    color: $text-color;
+  }
+
+  &:active {
+    color: $accent-color;
+    filter: opacity(.8);
+  }
+}
+
+footer {
+  align-items: center;
+  background-color: $background-alt;
+  color: $text-color;
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  width: 100%;
+  
+  & p {
+    // font-weight: bold;
+    font-size: .8rem;
+    margin: 0;
+  }
+}

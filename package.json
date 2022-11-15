@@ -1,0 +1,24 @@
+{
+  "name": "it115-team1-site",
+  "version": "1.0.0",
+  "description": "A project to build the site for our IT115 project",
+  "main": "index.js",
+  "scripts": {
+    "watch:sass": "sass --watch src/sass:public/style",
+    "build:sass": "sass src/sass:public/style",
+    "watch:eleventy": "eleventy --serve",
+    "build:eleventy": "eleventy",
+    "build:sass:prod": "sass src/sass:public/style --style compressed",
+    "build:eleventy:prod": "ELEVENTY_ENV=production eleventy",
+    "build:prod": "npm run build:eleventy:prod & npm run build:sass:prod",
+    "start": "npm-run-all build:sass --parallel watch:*",
+    "build": "npm-run-all build:*"
+  },
+  "author": "John O'Hara",
+  "license": "ISC",
+  "dependencies": {
+    "@11ty/eleventy": "^1.0.2",
+    "npm-run-all": "^4.1.5",
+    "sass": "^1.56.1"
+  }
+}
