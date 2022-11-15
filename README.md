@@ -1,5 +1,8 @@
 # IT115 Team Site
+[Live Site](https://jaohara.github.io/it115-team1-site/)
+
 This is a repo for an 11ty site for our IT115 project.
+
 
 ## Installing and Building
 After cloning the repo, install dependencies and run the start script:
