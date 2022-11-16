@@ -6,8 +6,8 @@
   "scripts": {
     "watch:sass": "sass --watch src/sass:public/style",
     "build:sass": "sass src/sass:public/style",
-    "watch:eleventy": "eleventy --serve",
-    "build:eleventy": "eleventy",
+    "watch:eleventy": "eleventy --serve --pathprefix 'it115-team1-site'",
+    "build:eleventy": "eleventy --pathprefix 'it115-team1-site'",
     "build:sass:prod": "sass src/sass:public/style --style compressed",
     "build:eleventy:prod": "ELEVENTY_ENV=production eleventy",
     "build:prod": "npm run build:eleventy:prod & npm run build:sass:prod",
