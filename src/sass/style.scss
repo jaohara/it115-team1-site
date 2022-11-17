@@ -49,7 +49,8 @@ $image-box-color: rgba(0,0,0,0.32);
 */
 $themes: (
   light: (
-    accent-color: $french-blue,
+    // accent-color: $french-blue,
+    accent-color: $red-pigment,
     accent-secondary: $green-pigment,
     background-color: $ghost-white,
     background-alt: $alice-blue,

@@ -8,6 +8,41 @@ layout: "base.njk"
 # Team 1 Project
 This is the page for the IT115 Team 1 Project. It is created using the [11ty static site generator](https://www.11ty.dev/) in tandem with [GitHub  Actions](https://github.com/features/actions) to build and deploy the generated static page.
 
+## How does it work?
+The 11ty project is configured via the `.eleventy.js` file in the project's root:
+
+```javascript
+const eleventyPluginFeatherIcons = require('eleventy-plugin-feathericons');
+const syntaxHighlight = require("@11ty/eleventy-plugin-syntaxhighlight");
+
+module.exports = function(eleventyConfig){
+  // config to watch css files that are built from sass
+  eleventyConfig.setBrowserSyncConfig({
+    files: './public/style/**/*.css'
+  });
+
+
+  eleventyConfig.addPassthroughCopy("assets");
+  eleventyConfig.addPlugin(eleventyPluginFeatherIcons);
+  eleventyConfig.addPlugin(syntaxHighlight);
+  eleventyConfig.addWatchTarget("./public/style/**/*.css");
+  
+  return {
+    dir: {
+      input: "src",
+      output: "public",
+    },
+    markdownTemplateEngine: "njk",
+  };
+};
+```
+
+This sets up 11ty to look for files in a variety of formats. The static content for this particular site is created by combining a variety of formats:
+
+- [Nunjucks](https://mozilla.github.io/nunjucks/) - a templating language used to create the structure of the site
+- [Sass](https://sass-lang.com/) - an extension to provide extra features to CSS
+- [Markdown]() - 
+
 ## Sub-Pages
 The following pages also exist for each group member:
 
