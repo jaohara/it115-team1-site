@@ -10,15 +10,69 @@
 
   <!-- TODO: Move to an external script -->
   <script>
+    const toggleClassOnFirstMatch = (target, className) =>
+      document.getElementsByClassName(target)[0].classList.toggle(className)
+
+    
+
     function toggleDarkMode (e) {
       e.preventDefault();
       document.getElementsByTagName("html")[0].classList.toggle("dark");
-      document.getElementsByClassName("toggle-dark")[0].classList.toggle("active");
-      document.getElementsByClassName("toggle-light")[0].classList.toggle("active");
+      //document.getElementsByClassName("toggle-dark")[0].classList.toggle("active");
+      //document.getElementsByClassName("toggle-light")[0].classList.toggle("active");
+      toggleClassOnFirstMatch("toggle-dark", "active");
+      toggleClassOnFirstMatch("toggle-light", "active");
     };
+
+    function toggleMenu(e) {
+      e.preventDefault();
+      document.getElementsByTagName("body")[0].classList.toggle("menu-active");
+      toggleClassOnFirstMatch("small-nav", "active");
+      
+    };
+
+    function toggleImageBox(e) {
+      e.preventDefault();
+      console.log("Toggling image box...")
+      const imageBox = document.getElementById("image-box");
+
+      if ([...imageBox.classList].includes("image-box-appear")){
+        imageBox.classList.add("image-box-to-hide");
+      } 
+      else {
+        imageBox.classList.add("image-box-appear");
+      }
+
+      imageBox.classList.toggle("active");
+
+      if ([...imageBox.classList].includes("image-box-to-hide")){
+        setTimeout(() => {
+          imageBox.classList.remove("image-box-appear");
+          imageBox.classList.remove("image-box-to-hide");
+        }, 200);
+      }
+    }
+
+    function navToGithub (e) {
+      e.preventDefault();
+      window.location.href = "https://github.com/jaohara/it115-team1-site"
+    }
+
+    window.addEventListener("keypress", (e) => {
+      console.log("Keypress event...")
+      console.log(e.code);
+      if (e.code === "Period") {
+        console.log(". keypress event...")
+        toggleImageBox(e);
+      }
+    });
   </script>
 </head>
 <body>
+  <div id="image-box" class="" onClick="toggleImageBox(event)">
+    
+    <img id="image-box-image" src="img/screenshot-2.png" alt="" />
+  </div>
 
   <header>
     <div class="header-wrapper">
@@ -26,18 +80,56 @@
         <a href=" /" class="logo-link"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-terminal feather-x"><polyline points="4 17 10 11 4 5"></polyline><line x1="12" y1="19" x2="20" y2="19"></line></svg> IT115: Team 1</a>
       </h1>
 
+
+      <!--
+
+
+
+
+
+
+
+
+        TODO: Move .small-nav structure to within #content, but hidden behind the header in 
+          z-space. When it's toggled to active, increase the padding on #content to slide it in
+          to view.
+
+
+
+
+
+
+      -->
+
+      <!-- Is this the best way to handle this? -->
+      <ul class="small-nav">
+        <li class="small-nav-list-item main-nav-link-wrapper">
+          <a class="small-nav-link " href="/John/">John's Page</a>
+        </li>        
+        <li class="small-nav-list-item main-nav-link-wrapper">
+          <a class="small-nav-link " href="/Karen/">Karen's Page</a>
+        </li>
+        <li class="small-nav-list-item main-nav-link-wrapper">
+          <a class="small-nav-link " href="/Ayla/">Ayla's Page</a>
+        </li>
+      </ul>
+
       <ul class="main-nav">
-        <li class="main-nav-list-item">
+        <li class="main-nav-list-item main-nav-link-wrapper">
           <a class="main-nav-link " href="/John/">John's Page</a>
         </li>        
-        <li class="main-nav-list-item">
+        <li class="main-nav-list-item main-nav-link-wrapper">
           <a class="main-nav-link " href="/Karen/">Karen's Page</a>
         </li>
-        <li class="main-nav-list-item">
+        <li class="main-nav-list-item main-nav-link-wrapper">
           <a class="main-nav-link " href="/Ayla/">Ayla's Page</a>
         </li>
+
         <li class="main-nav-list-item">
-          <span class="main-nav-control"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-github feather-x"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg></span>
+          <span class="main-nav-control toggle-menu active" onClick="toggleMenu(event)"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-menu feather-x"><line x1="3" y1="12" x2="21" y2="12"></line><line x1="3" y1="6" x2="21" y2="6"></line><line x1="3" y1="18" x2="21" y2="18"></line></svg></span>
+        </li>
+        <li class="main-nav-list-item">
+          <span class="main-nav-control active"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-github feather-x"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg></span>
         </li>
         <li class="main-nav-list-item">
           <span class="main-nav-control toggle-dark active" onClick="toggleDarkMode(event)"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather feather-moon feather-x"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path></svg></span>
@@ -47,8 +139,9 @@
     </div>
   </header>
 
-  <div id="content">
-    <h1>Team 1 Project</h1>
+  
+    <div id="content">
+      <h1>Team 1 Project</h1>
 <p>This is the page for the IT115 Team 1 Project.</p>
 <h1>Hey, John!</h1>
 <p>You're going to run into issues with relative links - there was a note in <a href="https://www.rockyourcode.com/how-to-deploy-eleventy-to-github-pages-with-github-actions/">that first blog post</a> you found that mentioned fixing this issue via <code>pathPrefix</code>. Look into this.</p>
@@ -59,13 +152,31 @@
 <li><a href="John/">John's Page</a></li>
 <li><a href="Karen/">Karen's Page</a></li>
 </ul>
+<h2>Testing More stuff</h2>
+<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Libero, laudantium ut. Cum saepe quas fuga eaque molestias harum consequuntur, labore iste neque quia nisi rerum dolores debitis maiores voluptatem soluta.</p>
+<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Id, quidem sequi. Architecto asperiores natus quam dolorum magni doloremque doloribus culpa fugiat quos nobis, esse tempora rerum aliquam velit, cumque amet?</p>
+<p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Amet optio beatae doloremque nostrum odio et ut accusamus quos animi molestiae, aspernatur blanditiis reiciendis, quae commodi aliquam? Minima sint exercitationem odio?</p>
+<div class="image-wrapper">
+  <img src="assets/img/screenshot.png" alt="The first screenshot" class="zoomable-image"/>
+</div>
 
-  </div>
+    </div>
 
-  <footer>
-    <p>
-      Created in 2022 for IT115 at <a href="">North Seattle College</a>
-    </p>
-  </footer>
+    <footer>
+      <p>
+        Created in 2022 for IT115 at <a href="">North Seattle College</a>
+      </p>
+    </footer>
+  
 </body>
+
+<script>
+  [...document.getElementsByClassName("zoomable-image")].forEach(element => {
+    element.addEventListener("click", (e) => {
+      e.preventDefault();
+      document.getElementById("image-box-image").src = element.src;
+      toggleImageBox(e);
+    });
+  })
+</script>
 </html>
