@@ -49,8 +49,8 @@ $image-box-color: rgba(0,0,0,0.32);
 */
 $themes: (
   light: (
-    // accent-color: $french-blue,
-    accent-color: $red-pigment,
+    accent-color: $french-blue,
+    // accent-color: $red-pigment,
     accent-secondary: $green-pigment,
     background-color: $ghost-white,
     background-alt: $alice-blue,
@@ -133,7 +133,13 @@ $common-transition-time: 150ms;
     filter $common-transition-time,
     opacity $common-transition-time,
     padding $common-transition-time;
-  }
+}
+
+@mixin color-transitions() {
+  transition: 
+    background-color $common-transition-time,
+    color $common-transition-time;
+}
   
   // TODO: .... make sure this doesn't get too ridiculous
 @mixin common-transitions-with-transform() {
@@ -247,7 +253,6 @@ code:not( pre > code) {
 }
 
 pre {
-  // margin
   width: 100%;
 
   @media (min-width: 1280px) {
@@ -740,6 +745,7 @@ footer {
 // ===========
 code[class*="language-"],
 pre[class*="language-"] {
+  @include color-transitions();
 	color: $red-pigment;
 	// text-shadow: 0 1px rgba(0, 0, 0, 0.3);
 	font-family: "JetBrains Mono", Inconsolata, Monaco, Consolas, 'Courier New', Courier, monospace;
@@ -764,12 +770,17 @@ pre[class*="language-"] {
 	hyphens: none;
 }
 
+.token {
+  @include color-transitions();
+}
+
 /* Code blocks */
 pre[class*="language-"] {
 	padding: 1em;
-	margin: .5em 0;
+	// margin: .5em 0;
+  margin: 3rem 0;
 	overflow: auto;
-	border-radius: 0.3em;
+	border-radius: $common-border-radius;
 }
 
 :not(pre) > code[class*="language-"],
