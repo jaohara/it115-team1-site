@@ -7,6 +7,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title></title>
   <link rel="stylesheet" href="/style/style.css">
+  <link rel="stylesheet" href="/style/prismTheme.css">
 
   <!-- TODO: Move to an external script -->
   <script>
@@ -155,12 +156,18 @@
 </body>
 
 <script>
+  // add click listener to all zoomable images
   [...document.getElementsByClassName("zoomable-image")].forEach(element => {
     element.addEventListener("click", (e) => {
       e.preventDefault();
       document.getElementById("image-box-image").src = element.src;
       toggleImageBox(e);
     });
+  });
+
+  // add target="_blank" to all links
+  document.querySelectorAll("#content a").forEach(function(a){
+    a.setAttribute('target', '_blank');
   })
 </script>
 </html>
