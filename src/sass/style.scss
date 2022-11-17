@@ -1,12 +1,13 @@
 @use "sass:map";
 
 // Google fonts
+// TODO: Remove unused fonts!
 @import url('https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400;700&family=Inter:wght@300;400;700&family=Oi&family=Source+Sans+Pro:wght@300;400;700;900&family=Fredoka+One&display=swap');
 
 
 // $main-font: "Inter";
-// $main-font: "Inter Tight";
-$main-font: "Source Sans Pro";
+$main-font: "Inter Tight";
+// $main-font: "Source Sans Pro";
 
 $header-font: $main-font; 
 $logo-font: $main-font;
@@ -15,6 +16,7 @@ $body-font: $main-font;
 // raw colors
 $alice-blue: #DBE4EE;
 $black-coffee: #2F242C;
+$blue-jeans: #3FABF8;
 $feldgrau: #586F6B;
 $french-blue: #1278C1;
 $green-pigment: #55A05B;
@@ -26,37 +28,44 @@ $peach: #FFE4AA;
 $iceberg: #81A4CD;
 $international-orange-aerospace: #F05D23;
 $old-burgundy: #3B252C;
+$oxford-blue: #191F34;
+$space-cadet:#21283E;
 $steel-blue: #3E7CB1;
-// $dark-sea-green: #7BB680;
+$dark-sea-green: #7BB680;
 $yale-blue: #054A91;
 
+$image-box-color: rgba(0,0,0,0.32);
+
+/*
+  I should expect the following: 
+    - accent-color
+    - accent-secondary
+    - background-color
+    - background-alt
+    - text-color
+    - text-alt
+    - text-color-inverted - what do I use this for?
+*/
 $themes: (
   light: (
+    accent-color: $french-blue,
+    accent-secondary: $green-pigment,
     background-color: $ghost-white,
     background-alt: $alice-blue,
-    // $background-alt: $corn;
+    image-box-color: rgba(0,0,0,0.4),
     text-color: $black-coffee,
     text-alt: $black-coffee,
     text-color-inverted: $ghost-white,
-    // $accent-color: $international-orange-aerospace;
-    accent-color: $french-blue,
-    // $accent-color: $dark-sienna;
-    // $accent-color: $corn;
-    accent-secondary: $green-pigment,
-  ),
+    ),
   dark: (
-    // $background-color: $ghost-white,
-    background-color: $black-coffee,
-    // $background-alt: $alice-blue,
-    background-alt: $old-burgundy,
-    // $text-color: $black-coffee,
-    text-color: $ghost-white,
-    // $text-alt: $dark-sienna,
-    text-alt: $alice-blue,
-    // $text-color-inverted: $ghost-white,
-    text-color-inverted: $black-coffee,
-    accent-color: $yale-blue,
+    accent-color: $blue-jeans,
     accent-secondary: $peach,
+    background-alt: $space-cadet,
+    background-color: $oxford-blue,
+    text-color: $ghost-white,
+    text-alt: $alice-blue,
+    text-color-inverted: $black-coffee,
+    image-box-color: rgba(0,0,0,0.4),
   )
 );
 
@@ -81,7 +90,30 @@ $common-margin-bottom: 1.3rem;
 $common-padding: 1.2rem;
 $common-transition-time: 150ms;
 
+// ======
 // mixins
+// ======
+@mixin accent-border {
+  border-bottom: $common-border solid map.get($themes, "light", "background-alt");
+
+  .dark & {
+    border-bottom: $common-border solid map.get($themes, "dark", "background-alt");
+  }
+}
+
+@mixin alt-background-for-inline-item {
+  @include common-transitions();
+  background-color: map.get($themes, "light", "background-alt");
+  border-radius: $common-border-radius;
+  border: 2px solid map.get($themes, "light", "background-alt");
+  padding: .15em .2em;
+  
+  .dark & {
+    background-color: map.get($themes, "dark", "background-alt");
+    border: 2px solid map.get($themes, "dark", "background-alt");
+  }
+}
+
 @mixin body-font {
   font-family: $body-font;
   font-size: 1.1rem;
@@ -89,16 +121,7 @@ $common-transition-time: 150ms;
   line-height: $common-line-height;
 }
 
-@mixin accent-border {
-  border-bottom: $common-border solid map.get($themes, "light", "background-alt");
-
-  .dark & {
-    // TODO: specify dark alt
-    border-bottom: $common-border solid map.get($themes, "light", "background-alt");
-  }
-}
-
-@mixin common-transitions {
+@mixin common-transitions() {
   transition: 
     background-color $common-transition-time,
     border $common-transition-time,
@@ -108,6 +131,29 @@ $common-transition-time: 150ms;
     filter $common-transition-time,
     opacity $common-transition-time,
     padding $common-transition-time;
+  }
+  
+  // TODO: .... make sure this doesn't get too ridiculous
+@mixin common-transitions-with-transform() {
+  transition: 
+    background-color $common-transition-time,
+    border $common-transition-time,
+    border-radius $common-transition-time,
+    box-shadow $common-transition-time,
+    color $common-transition-time,
+    filter $common-transition-time,
+    opacity $common-transition-time,
+    // padding $common-transition-time,
+    padding 500ms,
+    transform $common-transition-time,
+    width $common-transition-time;
+}
+
+@mixin hide-nav-item-above-screen {
+  height: 1px;
+  opacity: 0;
+  width: 1px;
+  transform: translateY(-10rem);
 }
 
 @mixin margin-reset {
@@ -134,6 +180,17 @@ $common-transition-time: 150ms;
   }
 }
 
+@mixin show-hidden-nav-item {
+  height: initial;
+  opacity: 1;
+  transform: translateY(0rem);
+  width: initial;
+}
+
+
+// ===============
+// general styling
+// ===============
 * {
   box-sizing: border-box;
 }
@@ -178,9 +235,19 @@ h3 {
   font-size: 1.8rem;
 }
 
+code {
+  @include alt-background-for-inline-item();
+  color: map.get($themes, "light", "accent-color");
+  
+  .dark & {
+    color: map.get($themes, "dark", "accent-color");
+  }
+}
+
 a:not(.main-nav-link, .logo-link) {
   @include common-transitions();
   // border-radius: $common-border-radius;
+  border: 2px solid transparent;
   border-bottom: 2px solid map.get($themes, "light", "background-alt");
   color: map.get($themes, "light", "accent-color");
   margin: 0 -.1em;
@@ -189,18 +256,15 @@ a:not(.main-nav-link, .logo-link) {
   
   .dark & {
     border-bottom: 2px solid map.get($themes, "dark", "background-alt");
+    color: map.get($themes, "dark", "accent-color");
   }
 
-
+  
   &:hover {
-    background-color: map.get($themes, "light", "background-alt");
+    @include alt-background-for-inline-item();
     color: map.get($themes, "light", "accent-color");
-    border-radius: $common-border-radius;
-    border-bottom: 2px solid map.get($themes, "light", "background-alt");
-    // padding-bottom: 0px;
     
     .dark & {
-      background-color: map.get($themes, "dark", "background-alt");
       color: map.get($themes, "dark", "text-color");;
     }
   }
@@ -210,7 +274,7 @@ a:not(.main-nav-link, .logo-link) {
   }
 }
 
-ul:not(.main-nav), ol {
+ul:not(.main-nav, .small-nav), ol {
   @include margin-reset();
   // border-left: $common-border solid background-alt;
   // background-color: $background-alt;
@@ -226,8 +290,13 @@ li {
 }
 
 li:not(.main-nav-list-item)::marker {
+  @include common-transitions();
   color: map.get($themes, "light", "accent-color");
   font-weight: bold;
+
+  .dark & {
+    color: map.get($themes, "dark", "accent-color");
+  }
 }
 
 p {
@@ -235,20 +304,77 @@ p {
   @include margin-reset();
 }
 
+#image-box {
+  @include common-transitions();
+  align-items: center;
+  background-color: $image-box-color;
+  cursor: pointer;
+  display: flex;
+  height: 100vh;
+  left: right;
+  justify-content: center;
+  opacity: 0;
+  position: fixed;
+  top: 0;
+  width: 100vw;
+  z-index: -100;
+  
+  &.active {
+    opacity: 1;
+    z-index: 100;
+  }
+}
+
+#image-box-image {
+  border-radius: $common-border-radius;
+  width: 100%;
+  margin: 0 auto;
+  max-width: 100vw;
+}
+
+.image-wrapper {
+  margin: 2rem 0;
+  width: 100%;
+}
+
+img:not(#image-box-image) {
+  @include common-transitions-with-transform();
+  width: 100%;
+
+  &:hover {
+    border-radius: $common-border-radius;
+    cursor: pointer;
+    transform: scale(1.025);
+  }
+
+  @media (min-width: 1280px) {
+    width: 125%;
+    transform: translateX(-10%);
+
+    &:hover {
+      transform: scale(1.05) translateX(-10%);
+    }
+  }
+
+}
+
+// ==============
+// header styling
+// ==============
 header {
   @include common-transitions();
   // @include responsive-widths();
   align-items: center;
   background-color: map.get($themes, "light", "background-color");
-  // background-color: $text-color;
   box-shadow: 0px 4px 8px map.get($themes, "light", "background-color");
-  // border-top: 8px solid $text-color;
+  // border-top: 8px solid map.get($themes, "light", "accent-color");
   display: flex;
   // flex-direction: column;
   justify-content: space-between;
   position: fixed;
   top: 0;
   width: 100vw;
+  z-index: 2;
   
   .dark & {
     background-color: map.get($themes, "dark", "background-color");
@@ -311,6 +437,9 @@ header {
   }
 }
 
+// ===========
+// nav styling
+// ===========
 .main-nav {
   list-style-type: none;
   display: inline-flex;
@@ -328,74 +457,139 @@ header {
   }
 }
 
+.small-nav {
+  // @include hide-nav-item-above-screen();
+  @include common-transitions-with-transform();
+  @include show-hidden-nav-item();
+  background-color: map.get($themes, "light", background-alt);
+  border-radius: $common-border-radius;
+  display: flex;
+  justify-content: space-around;
+  list-style-type: none;
+  margin: 0;
+  opacity: 0;
+  padding: 1rem;
+  position: fixed;
+  right: 0;
+  top: 6.4rem;
+  transform: translateY(-3rem);
+  width: 100vw;
+  z-index: -100;
+
+  @media (min-width: 768px) {
+    @include hide-nav-item-above-screen();
+    display: inline-flex;
+  }
+
+  &.active {
+    opacity: 1;
+    transform: translateY(0);
+    // z-index: 100;
+  }
+}
+
+.small-nav-list-item {
+  @include common-transitions();
+
+  margin-left: 0;
+  padding-left: 0;
+  width: 10rem;
+  text-align: center;
+
+
+  & a {
+    display: block;
+    width: 100%;
+
+    &:hover {
+      background-color: map.get($themes, "light", "background-color");
+    }
+  }
+
+}
+
 .main-nav-list-item {
   @include common-transitions();
   // background-color: $background-alt;
   align-items: center;
+  margin: 0 1rem 0 0;
+  padding-left: 0;
   min-height: 3rem;
   justify-content: center;
-  margin: 0 1rem;
   text-align: center;
   
   &:hover {
+  }
+
+  &.main-nav-link-wrapper {
+    @include hide-nav-item-above-screen();
+
+    @media (min-width: 768px) {
+      @include show-hidden-nav-item();
+      display: inline-flex;
+    }
   }
 }
 
 .main-nav-link {
   @include common-transitions();
   border: 2px solid transparent;
-  // border-color: map.get($themes, "light", "background-alt");
   color: map.get($themes, "light", "text-color");
   display: inline-block;
-  // background-color: $background-alt;
-  // font-weight: bold;
   margin: -1rem 0;
   padding: .4rem ;
   text-decoration: none;
   
+  .dark & {
+    color: map.get($themes, "dark", "text-color");
+  }
+  
   &:hover {
-    // background-color: $background-alt;
-    // border-radius: $common-border-radius;
     @include accent-border();
     color: map.get($themes, "light", "accent-color");
   }
-
+  
   &:active {
-    color: $accent-color;
+    color: map.get($themes, "light", "accent-color");
+    
+    .dark & {
+      color: map.get($themes, "dark", "accent-color");
+    }
   }
 
   &.active:not(&.active ~ &:hover) {
     @include accent-border();
     color: map.get($themes, "light", "accent-color");
+    
+    .dark & {
+      color: map.get($themes, "light", "accent-color");
+    }
   }
 }
 
 .main-nav-control {
-  @include common-transitions();
-  color: map.get($themes, "light", "accent-color");
-  border-radius: 24px;
+  @include common-transitions-with-transform();
+  // @include accent-border();
   align-items: center;
-  // border: 2px solid transparent;
+  // border-radius: 24px;
+  border-color: transparent;
+  border: $common-border;
+  color: map.get($themes, "light", "accent-color");
+  display: none;
+  height: 2rem;
   opacity: 0;
   padding: .32rem;
-  // display: inline-flex;
-  display: none;
   justify-content: center;
-  height: 2rem;
+  transform: none;
   width: 2rem;
   
-  & svg {
-
-  }
-
   &:hover {
-    // @include accent-border();
-    // background-color: map.get($themes, "light", "background-alt");
-    // border: 2px solid map.get($themes, "light", "background-alt");
-    // border-radius: 24px;
-    background-color: map.get($themes, "light", background-alt);
-    // color: map.get($themes, "light", "text-color");
+    color: map.get($themes, "light", "text-color");
     cursor: pointer;
+    
+    .dark & {
+      color: map.get($themes, "dark", "text-color");
+    }
   }
 
   .dark & {
@@ -407,41 +601,43 @@ header {
     display: inline-flex;
   }
 
-  // This could probably be smarter
-  // &.toggle-dark {
-  //   display: initial;
-  //   opacity: 1;
-  // }
-
-  // &.toggle-sun {
-  //   display: none;
-  //   opacity: 0;
-  // }
-
-  // .dark &.toggle-dark {
-  //   display: none;
-  //   opacity: 0;
-  // }
-
-  // .dark &.toggle-sun {
-  //   display: initial;
-  //   opacity: 1;
-  // }
+  &.toggle-menu {
+    @include show-hidden-nav-item();
+    @media (min-width: 768px) {
+      @include hide-nav-item-above-screen();
+    }
+  }
 }
 
 
-
-
+// ============
+// body styling
+// ============
 body {
+  $body-top-padding: 7.5rem;
+  $body-offset-menu-active: rem;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   margin: 0;
   min-height: 100vh;
   padding: 0;
-  padding-top: 7.5rem;
+  padding-top: $body-top-padding;
   position: relative;
+  transform: none;
   width: 100vw;
 
-  & > * {
+  & > *:not(.non-header-body-wrapper), & > .non-header-body-wrapper > * {
     padding: $common-padding;
+  }
+
+  & > div {
+    // @include common-transitions-with-transform();
+  }
+
+  &.menu-active {
+    padding-top: calc($body-top-padding + $body-offset-menu-active);
   }
 }
 
@@ -450,12 +646,9 @@ body {
   margin: 0 auto;
 }
 
+// TODO: Do I want to use this?
 #content-controls {
   display: none;
-
-
-  background-color: $text-color;
-  color: $accent-color;
   height: 100vh;
   left: 0;
   position: fixed;
@@ -467,22 +660,31 @@ button {
   @include common-transitions();
   
   background-color: transparent;
-  // background-color: $background-alt;
-  border: $common-border solid $background-alt;
+  border: $common-border solid map.get($themes, "light", "background-alt");
   border-radius: $common-border-radius;
-  color: $accent-color;
+  color: map.get($themes, "light", "accent-color");
   font-family: $main-font;
   font-weight: bold;
   padding: .75rem 1rem;
-
+  
+  .dark & {
+    border: $common-border solid map.get($themes, "dark", "background-alt");
+    color: map.get($themes, "dark", "accent-color");
+  }
+  
   &:hover {
-    // background-color: $accent-color;
-    background-color: $background-alt;
-    border-color: $background-alt;
-    // border-color: $iceberg;
-    // box-shadow: 0px 4px 15px rgba(0,0,0,0.05);
+    background-color: map.get($themes, "light", "background-alt");
+    border-color: map.get($themes, "light", "background-alt");
     cursor: pointer;
-    color: $text-color;
+    color: map.get($themes, "light", "text-color");
+    
+    
+    .dark & {
+      background-color: map.get($themes, "dark", "background-alt");
+      border-color: map.get($themes, "dark", "background-alt");
+      cursor: pointer;
+      color: map.get($themes, "dark", "text-color");   
+    }
   }
 
   &:active {
@@ -491,16 +693,24 @@ button {
   }
 }
 
+// ==============
+// footer styling
+// ==============
 footer {
+  @include common-transitions();
   align-items: center;
-  bottom: 0;
-  background-color: $background-alt;
-  color: $text-color;
+  background-color: map.get($themes, "light", "background-alt");
+  color: map.get($themes, "light", "text-color");
   display: flex;
   justify-content: center;
-  position: absolute;
+  margin-top: 2rem;
   text-align: center;
   width: 100%;
+  
+  .dark & {
+    background-color: map.get($themes, "dark", "background-alt");
+    color: map.get($themes, "dark", "text-color");
+  }
   
   & p {
     // font-weight: bold;

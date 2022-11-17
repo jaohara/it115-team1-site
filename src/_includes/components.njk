@@ -9,3 +9,9 @@
   {{content}}
 </span>
 {% endmacro %}
+
+{% macro image(src, alt)%}
+<div class="image-wrapper">
+  <img src="{{src}}" alt="{{alt}}" class="zoomable-image"/>
+</div>
+{% endmacro %}

@@ -10,20 +10,70 @@
 
   <!-- TODO: Move to an external script -->
   <script>
+    const toggleClassOnFirstMatch = (target, className) =>
+      document.getElementsByClassName(target)[0].classList.toggle(className)
+
+    {# const toggleClassOnElementFirstMatch = (target, className) =>
+      document.getElementsByTagName(target)[0].classList.toggle(className); #}
+
     function toggleDarkMode (e) {
       e.preventDefault();
       document.getElementsByTagName("html")[0].classList.toggle("dark");
-      document.getElementsByClassName("toggle-dark")[0].classList.toggle("active");
-      document.getElementsByClassName("toggle-light")[0].classList.toggle("active");
+      //document.getElementsByClassName("toggle-dark")[0].classList.toggle("active");
+      //document.getElementsByClassName("toggle-light")[0].classList.toggle("active");
+      toggleClassOnFirstMatch("toggle-dark", "active");
+      toggleClassOnFirstMatch("toggle-light", "active");
     };
+
+    function toggleMenu(e) {
+      e.preventDefault();
+      document.getElementsByTagName("body")[0].classList.toggle("menu-active");
+      toggleClassOnFirstMatch("small-nav", "active");
+      
+    };
+
+    function toggleImageBox(e) {
+      e.preventDefault();
+      console.log("Toggling image box...")
+      const imageBox = document.getElementById("image-box");
+
+      if ([...imageBox.classList].includes("image-box-appear")){
+        imageBox.classList.add("image-box-to-hide");
+      } 
+      else {
+        imageBox.classList.add("image-box-appear");
+      }
+
+      imageBox.classList.toggle("active");
+
+      if ([...imageBox.classList].includes("image-box-to-hide")){
+        setTimeout(() => {
+          imageBox.classList.remove("image-box-appear");
+          imageBox.classList.remove("image-box-to-hide");
+        }, 200);
+      }
+    }
 
     function navToGithub (e) {
       e.preventDefault();
       window.location.href = "https://github.com/jaohara/it115-team1-site"
     }
+
+    window.addEventListener("keypress", (e) => {
+      console.log("Keypress event...")
+      console.log(e.code);
+      if (e.code === "Period") {
+        console.log(". keypress event...")
+        toggleImageBox(e);
+      }
+    });
   </script>
 </head>
 <body>
+  <div id="image-box" class="" onClick="toggleImageBox(event)">
+    {# <img src="" alt="" /> #}
+    <img id="image-box-image" src="img/screenshot-2.png" alt="" />
+  </div>
 
   <header>
     <div class="header-wrapper">
@@ -31,15 +81,53 @@
         <a href=" {{ '/' | url }}" class="logo-link">{% feather "terminal" %} IT115: Team 1</a>
       </h1>
 
+
+      <!--
+
+
+
+
+
+
+
+
+        TODO: Move .small-nav structure to within #content, but hidden behind the header in 
+          z-space. When it's toggled to active, increase the padding on #content to slide it in
+          to view.
+
+
+
+
+
+
+      -->
+
+      <!-- Is this the best way to handle this? -->
+      <ul class="small-nav">
+        <li class="small-nav-list-item main-nav-link-wrapper">
+          <a class="small-nav-link {{ 'active' if '/John' in page.url  }}" href="{{ '/John/' | url }}">John's Page</a>
+        </li>        
+        <li class="small-nav-list-item main-nav-link-wrapper">
+          <a class="small-nav-link {{ 'active' if '/Karen' in page.url  }}" href="{{ '/Karen/' | url }}">Karen's Page</a>
+        </li>
+        <li class="small-nav-list-item main-nav-link-wrapper">
+          <a class="small-nav-link {{ 'active' if '/Ayla' in page.url  }}" href="{{ '/Ayla/' | url }}">Ayla's Page</a>
+        </li>
+      </ul>
+
       <ul class="main-nav">
-        <li class="main-nav-list-item">
+        <li class="main-nav-list-item main-nav-link-wrapper">
           <a class="main-nav-link {{ 'active' if '/John' in page.url  }}" href="{{ '/John/' | url }}">John's Page</a>
         </li>        
-        <li class="main-nav-list-item">
+        <li class="main-nav-list-item main-nav-link-wrapper">
           <a class="main-nav-link {{ 'active' if '/Karen' in page.url  }}" href="{{ '/Karen/' | url }}">Karen's Page</a>
         </li>
-        <li class="main-nav-list-item">
+        <li class="main-nav-list-item main-nav-link-wrapper">
           <a class="main-nav-link {{ 'active' if '/Ayla' in page.url  }}" href="{{ '/Ayla/' | url }}">Ayla's Page</a>
+        </li>
+
+        <li class="main-nav-list-item">
+          <span class="main-nav-control toggle-menu active" onClick="toggleMenu(event)">{% feather "menu" %}</span>
         </li>
         <li class="main-nav-list-item">
           <span class="main-nav-control active">{% feather "github" %}</span>
@@ -52,14 +140,26 @@
     </div>
   </header>
 
-  <div id="content">
-    {{ content | safe }}
-  </div>
+  {# <div id="non-header-body-wrapper"> #}
+    <div id="content">
+      {{ content | safe }}
+    </div>
 
-  <footer>
-    <p>
-      Created in 2022 for IT115 at <a href="">North Seattle College</a>
-    </p>
-  </footer>
+    <footer>
+      <p>
+        Created in 2022 for IT115 at <a href="">North Seattle College</a>
+      </p>
+    </footer>
+  {# </div> #}
 </body>
+
+<script>
+  [...document.getElementsByClassName("zoomable-image")].forEach(element => {
+    element.addEventListener("click", (e) => {
+      e.preventDefault();
+      document.getElementById("image-box-image").src = element.src;
+      toggleImageBox(e);
+    });
+  })
+</script>
 </html>
