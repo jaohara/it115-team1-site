@@ -7,7 +7,6 @@ module.exports = function(eleventyConfig){
     files: './public/style/**/*.css'
   });
 
-
   eleventyConfig.addPassthroughCopy("assets");
   eleventyConfig.addPlugin(eleventyPluginFeatherIcons);
   eleventyConfig.addPlugin(syntaxHighlight);
