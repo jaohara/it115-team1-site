@@ -88,6 +88,7 @@ $accent-color: $yale-blue;
 $common-border-radius: 8px;
 $common-border: 3px;
 $common-line-height: 2.4rem;
+$common-large-margin: 4rem;
 $common-margin-bottom: 1.3rem;
 $common-padding: 1.2rem;
 $common-transition-time: 150ms;
@@ -231,6 +232,10 @@ h1:not(#header-logo), h2, h3 {
   }
 }
 
+#content h1, h2, h3 {
+  margin-top: 3rem;
+}
+
 h1 {
   font-size: 2.8rem;
 }
@@ -245,6 +250,8 @@ h3 {
 
 code:not( pre > code) {
   @include alt-background-for-inline-item();
+  font-size: 1rem;
+  font-weight: normal;
   color: map.get($themes, "light", "accent-color");
   
   .dark & {
@@ -348,13 +355,15 @@ p {
 
 #image-box-image {
   border-radius: $common-border-radius;
-  width: 100%;
   margin: 0 auto;
-  max-width: 100vw;
+  max-height: 100%;
+  width: 100%;
+  max-width: 1920px;
 }
 
+
 .image-wrapper {
-  margin: 2rem 0;
+  margin: $common-large-margin 0;
   width: 100%;
 }
 
@@ -770,6 +779,14 @@ pre[class*="language-"] {
 	hyphens: none;
 }
 
+pre.language-yaml > code.language-yaml {
+	color: $feldgrau;
+
+  .dark & {
+    color: map.get($themes, "dark", "text-alt");
+  }
+}
+
 .token {
   @include color-transitions();
 }
@@ -778,7 +795,7 @@ pre[class*="language-"] {
 pre[class*="language-"] {
 	padding: 1em;
 	// margin: .5em 0;
-  margin: 3rem 0;
+  margin: $common-large-margin 0;
 	overflow: auto;
 	border-radius: $common-border-radius;
 }
@@ -889,7 +906,12 @@ pre[class*="language-"] {
 
 .token.atrule,
 .token.attr-value {
-	color: #F9EE98;
+	// color: #F9EE98;
+  color: map.get($themes, "light", "accent-color");
+
+  .dark & {
+    color: map.get($themes, "dark", "accent-color");
+  }
 }
 
 .token.function {
