@@ -21,5 +21,8 @@
     "eleventy-plugin-feathericons": "^1.0.1",
     "npm-run-all": "^4.1.5",
     "sass": "^1.56.1"
+  },
+  "devDependencies": {
+    "@11ty/eleventy-plugin-syntaxhighlight": "^4.2.0"
   }
 }

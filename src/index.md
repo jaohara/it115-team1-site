@@ -6,11 +6,7 @@ layout: "base.njk"
 {% import "components.njk" as ui%}
 
 # Team 1 Project
-This is the page for the IT115 Team 1 Project.
-
-
-# Hey, John!
-You're going to run into issues with relative links - there was a note in [that first blog post](https://www.rockyourcode.com/how-to-deploy-eleventy-to-github-pages-with-github-actions/) you found that mentioned fixing this issue via `pathPrefix`. Look into this. 
+This is the page for the IT115 Team 1 Project. It is created using the [11ty static site generator](https://www.11ty.dev/) in tandem with [GitHub  Actions](https://github.com/features/actions) to build and deploy the generated static page.
 
 ## Sub-Pages
 The following pages also exist for each group member:
@@ -29,3 +25,35 @@ Lorem, ipsum dolor sit amet consectetur adipisicing elit. Amet optio beatae dolo
 
 {{ ui.image("assets/img/screenshot.png", "The first screenshot")}}
 
+Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolorem nulla vero quia! Repellat, quas! Iusto, delectus ab! Soluta ab eveniet similique, aliquam, voluptatibus reprehenderit mollitia nesciunt aliquid commodi asperiores voluptas?
+
+1. First thing
+2. Then on to the next
+3. Before moving on to the thing after
+4. Bringing us here, allowing us to eventually
+5. Reach the end
+
+## What about code?
+
+To be honest, that isn't something that I had thought about. Let's check it out.
+
+```javascript
+module.exports = function(eleventyConfig){
+  // config to watch css files that are built from sass
+  eleventyConfig.setBrowserSyncConfig({
+    files: './public/style/**/*.css'
+  });
+
+  eleventyConfig.addPassthroughCopy("assets");
+  eleventyConfig.addPlugin(eleventyPluginFeatherIcons);
+  eleventyConfig.addWatchTarget("./public/style/**/*.css");
+  
+  return {
+    dir: {
+      input: "src",
+      output: "public",
+    },
+    markdownTemplateEngine: "njk",
+  };
+};
+```

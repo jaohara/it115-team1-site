@@ -29,6 +29,7 @@ $iceberg: #81A4CD;
 $international-orange-aerospace: #F05D23;
 $old-burgundy: #3B252C;
 $oxford-blue: #191F34;
+$red-pigment: #F02424;
 $space-cadet:#21283E;
 $steel-blue: #3E7CB1;
 $dark-sea-green: #7BB680;
@@ -52,7 +53,7 @@ $themes: (
     accent-secondary: $green-pigment,
     background-color: $ghost-white,
     background-alt: $alice-blue,
-    image-box-color: rgba(0,0,0,0.4),
+    image-box-color: rgba(255,255,255,0.8),
     text-color: $black-coffee,
     text-alt: $black-coffee,
     text-color-inverted: $ghost-white,
@@ -65,7 +66,7 @@ $themes: (
     text-color: $ghost-white,
     text-alt: $alice-blue,
     text-color-inverted: $black-coffee,
-    image-box-color: rgba(0,0,0,0.4),
+    image-box-color: rgba(0,0,0,0.8),
   )
 );
 
@@ -235,12 +236,22 @@ h3 {
   font-size: 1.8rem;
 }
 
-code {
+code:not( pre > code) {
   @include alt-background-for-inline-item();
   color: map.get($themes, "light", "accent-color");
   
   .dark & {
     color: map.get($themes, "dark", "accent-color");
+  }
+}
+
+pre {
+  // margin
+  width: 100%;
+
+  @media (min-width: 1280px) {
+    width: 125%;
+    transform: translateX(-10%);
   }
 }
 
@@ -307,7 +318,7 @@ p {
 #image-box {
   @include common-transitions();
   align-items: center;
-  background-color: $image-box-color;
+  background-color: map.get($themes, "light", "image-box-color");
   cursor: pointer;
   display: flex;
   height: 100vh;
@@ -318,6 +329,10 @@ p {
   top: 0;
   width: 100vw;
   z-index: -100;
+
+  .dark & {
+    background-color: map.get($themes, "dark", "image-box-color");
+  }
   
   &.active {
     opacity: 1;
@@ -717,4 +732,175 @@ footer {
     font-size: .8rem;
     margin: 0;
   }
+}
+
+// ===========
+// prism theme
+// ===========
+code[class*="language-"],
+pre[class*="language-"] {
+	color: $red-pigment;
+	// text-shadow: 0 1px rgba(0, 0, 0, 0.3);
+	font-family: "JetBrains Mono", Inconsolata, Monaco, Consolas, 'Courier New', Courier, monospace;
+	direction: ltr;
+	text-align: left;
+	white-space: pre;
+	word-spacing: normal;
+	word-break: normal;
+	line-height: 1.5;
+
+  .dark & {
+    color: $international-orange-aerospace;
+  }
+
+	-moz-tab-size: 4;
+	-o-tab-size: 4;
+	tab-size: 4;
+
+	-webkit-hyphens: none;
+	-moz-hyphens: none;
+	-ms-hyphens: none;
+	hyphens: none;
+}
+
+/* Code blocks */
+pre[class*="language-"] {
+	padding: 1em;
+	margin: .5em 0;
+	overflow: auto;
+	border-radius: 0.3em;
+}
+
+:not(pre) > code[class*="language-"],
+pre[class*="language-"] {
+	// background: #1d1f21;
+	background: map.get($themes, "light", "background-alt");
+  
+  .dark & {
+    background: map.get($themes, "dark", "background-alt");
+  }
+}
+
+/* Inline code */
+:not(pre) > code[class*="language-"] {
+	padding: .1em;
+	border-radius: .3em;
+}
+
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata {
+	color: #7C7C7C;
+}
+
+.token.punctuation {
+  color: map.get($themes, "light", "text-color");
+  
+  .dark & {
+    color: map.get($themes, "dark", "text-color");
+  }
+}
+
+.namespace {
+	opacity: .7;
+}
+
+.token.property,
+.token.keyword,
+.token.tag {
+	// color: #96CBFE;
+  color: map.get($themes, "light", "accent-color");
+  
+  .dark & {
+    color: map.get($themes, "dark", "accent-color");
+  }
+}
+
+.token.class-name {
+	color: #FFFFB6;
+	text-decoration: underline;
+}
+
+.token.boolean,
+.token.constant {
+	color: #99CC99;
+}
+
+.token.symbol,
+.token.deleted {
+	color: #f92672;
+}
+
+.token.number {
+	color: #FF73FD;
+}
+
+.token.selector,
+.token.attr-name,
+.token.string,
+.token.char,
+.token.builtin,
+.token.inserted {
+	color: $feldgrau;
+
+  .dark & {
+    color: map.get($themes, "dark", "text-alt");
+  }
+}
+
+.token.variable {
+	color: #C6C5FE;
+}
+
+.token.operator {
+  color: map.get($themes, "light", "text-color");
+  
+  .dark & {
+    color: map.get($themes, "dark", "text-color");
+  }
+}
+
+.token.entity {
+	color: #FFFFB6;
+	cursor: help;
+}
+
+.token.url {
+	color: #96CBFE;
+}
+
+.language-css .token.string,
+.style .token.string {
+	color: $feldgrau;
+}
+
+.token.atrule,
+.token.attr-value {
+	color: #F9EE98;
+}
+
+.token.function {
+  color: $international-orange-aerospace;
+
+  .dark & {
+    color: $orange-yellow-crayola;
+  }
+}
+
+.token.regex {
+	color: #E9C062;
+}
+
+.token.important {
+	color: #fd971f;
+}
+
+.token.important,
+.token.bold {
+	font-weight: bold;
+}
+
+.token.italic {
+	font-style: italic;
 }
