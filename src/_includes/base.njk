@@ -16,6 +16,11 @@
       document.getElementsByClassName("toggle-dark")[0].classList.toggle("active");
       document.getElementsByClassName("toggle-light")[0].classList.toggle("active");
     };
+
+    function navToGithub (e) {
+      e.preventDefault();
+      window.location.href = "https://github.com/jaohara/it115-team1-site"
+    }
   </script>
 </head>
 <body>
@@ -37,7 +42,7 @@
           <a class="main-nav-link {{ 'active' if '/Ayla' in page.url  }}" href="{{ '/Ayla/' | url }}">Ayla's Page</a>
         </li>
         <li class="main-nav-list-item">
-          <span class="main-nav-control">{% feather "github" %}</span>
+          <span class="main-nav-control active">{% feather "github" %}</span>
         </li>
         <li class="main-nav-list-item">
           <span class="main-nav-control toggle-dark active" onClick="toggleDarkMode(event)">{% feather "moon" %}</span>

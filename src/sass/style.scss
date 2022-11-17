@@ -296,6 +296,7 @@ header {
 
   &:hover {
     // @include common-transitions();
+    color: map.get($themes, "light", "accent-color");
     @include accent-border();
     cursor: pointer;
   }
