@@ -38,7 +38,7 @@ This configuration is handled by adding a few scripts to the project's `package.
 },
 ```
 
-They broadly fall into two categories of script - `watch` scripts and `build` scripts. When we want to start local development, we begin by running `npm run start`. This will cause the `build:sass` script to be run in parallel with all of the `watch` scripts, which is responsible for that  
+They broadly fall into two categories of script - `watch` scripts and `build` scripts. When we want to start local development, we begin by running `npm run start`. This will cause the `build:sass` script to be run in parallel with all of the `watch` scripts, which is responsible for that dynamic build-and-refresh behavior.
 
 {{ ui.image("assets/img/screenshot-dev-server.png", "The local development workflow via the node server")}}
 
