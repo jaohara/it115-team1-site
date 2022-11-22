@@ -15,8 +15,6 @@ npm run start
 
 This will serve the most recent version of this repo at `https://localhost:8080`.
 
-# New Changes for Assignment 8
+# Cleaned Up Section
 
-Here I am writing some changes to this file for Assignment 8.
-
-Now I'm adding more stuff after the file has already been added to the staging area.
+I removed all of the lines from before.
